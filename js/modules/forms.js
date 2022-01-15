@@ -80,7 +80,17 @@ function forms() {
         }, 2000);
     }
 
-    
+    function showModal() {
+        modal.classList.remove('hide');
+        modal.classList.add('show', );
+        // clearInterval(timerId);
+
+    }
+
+    function closeModal(modal) {
+        modal.classList.add('hide');
+        modal.classList.remove('show');
+    }
 
 
 }
