@@ -132,4 +132,4 @@ function slide() {
     });
 }
 
-module.exports = slide;
+export default slide;
