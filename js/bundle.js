@@ -242,6 +242,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal */ "./js/modules/modal.js");
+
+
+
 function forms() {
     const forms = document.querySelectorAll('form');
 
@@ -274,7 +278,6 @@ function forms() {
     function bindPostData(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-
             const spiner = document.createElement('img');
             spiner.src = 'img/form/spinner.svg';
             spiner.style.cssText =
@@ -303,7 +306,7 @@ function forms() {
     function showHello(message) {
         const prevModal = document.querySelector('.modal__content');
         prevModal.classList.add('hide');
-        showModal();
+        (0,_modal__WEBPACK_IMPORTED_MODULE_0__.showModal)('.modal');
 
         const newMessage = document.createElement('div');
         newMessage.classList.add('modal__content');
@@ -319,27 +322,17 @@ function forms() {
             prevModal.classList.remove('hide');
             prevModal.classList.add('show');
             newMessage.remove();
-            closeModal(modal);
+            (0,_modal__WEBPACK_IMPORTED_MODULE_0__.closeModal)('.modal');
 
         }, 2000);
     }
 
-    function showModal() {
-        modal.classList.remove('hide');
-        modal.classList.add('show', );
-        // clearInterval(timerId);
-
-    }
-
-    function closeModal(modal) {
-        modal.classList.add('hide');
-        modal.classList.remove('show');
-    }
-
+   
 
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (forms);
+
 
 /***/ }),
 
@@ -351,16 +344,34 @@ function forms() {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "closeModal": () => (/* binding */ closeModal),
+/* harmony export */   "showModal": () => (/* binding */ showModal)
 /* harmony export */ });
-function modal() {
-    const modalTrigger = document.querySelectorAll('[data-modal]'),
-        modal = document.querySelector('.modal');
+function showModal(modalSelector, timerId) {
+    const modal = document.querySelector(modalSelector);
+    modal.classList.remove('hide');
+    modal.classList.add('show');
+    if (timerId) {
+        clearInterval(timerId);
+    }
 
+
+}
+
+function closeModal(modalSelector) {
+    const modal = document.querySelector(modalSelector);
+    modal.classList.add('hide');
+    modal.classList.remove('show');
+}
+
+function modal(triggerSelector, modalSelector, timerId) {
+    const modalTrigger = document.querySelectorAll(triggerSelector),
+        modal = document.querySelector(modalSelector);
 
     modalTrigger.forEach(item => {
         item.addEventListener('click', (e) => {
-            showModal();
+            showModal(modalSelector, timerId);
             document.body.style.overflow = 'hidden';
         });
 
@@ -369,37 +380,29 @@ function modal() {
 
 
 
+
+
     modal.addEventListener('click', (e) => {
         const target = e.target;
 
         if (target === modal || target.getAttribute('data-close') === '') {
-            closeModal(modal);
+            closeModal(modalSelector);
             document.body.style.overflow = '';
         }
 
     });
 
-    function showModal() {
-        modal.classList.remove('hide');
-        modal.classList.add('show', );
-        // clearInterval(timerId);
 
-    }
-
-    function closeModal(modal) {
-        modal.classList.add('hide');
-        modal.classList.remove('show');
-    }
 
     document.addEventListener('keydown', (e) => {
         if (e.code == "Escape" && modal.classList.contains('show')) {
-            closeModal(modal);
+            closeModal(modalSelector);
             console.log(1);
 
         }
     });
 
-    // const timerId = setTimeout(showModal, 30000);
+    
 
     function showModalByScroll() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
@@ -411,10 +414,12 @@ function modal() {
 
     }
 
-    // window.addEventListener('scroll', showModalByScroll);
+    window.addEventListener('scroll', showModalByScroll);
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modal);
+
+
 
 /***/ }),
 
@@ -786,9 +791,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 window.addEventListener('DOMContentLoaded', () => {
+
+    const timerId = setTimeout(() => (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__.showModal)('.modal', timerId), 3000);
     (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__["default"])();
-    (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])();
+    (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])('[data-modal]', '.modal', timerId);
     (0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__["default"])();
     (0,_modules_cards__WEBPACK_IMPORTED_MODULE_3__["default"])();
     (0,_modules_calc__WEBPACK_IMPORTED_MODULE_4__["default"])();

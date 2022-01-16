@@ -1,11 +1,27 @@
-function modal() {
-    const modalTrigger = document.querySelectorAll('[data-modal]'),
-        modal = document.querySelector('.modal');
+function showModal(modalSelector, timerId) {
+    const modal = document.querySelector(modalSelector);
+    modal.classList.remove('hide');
+    modal.classList.add('show');
+    if (timerId) {
+        clearInterval(timerId);
+    }
 
+
+}
+
+function closeModal(modalSelector) {
+    const modal = document.querySelector(modalSelector);
+    modal.classList.add('hide');
+    modal.classList.remove('show');
+}
+
+function modal(triggerSelector, modalSelector, timerId) {
+    const modalTrigger = document.querySelectorAll(triggerSelector),
+        modal = document.querySelector(modalSelector);
 
     modalTrigger.forEach(item => {
         item.addEventListener('click', (e) => {
-            showModal();
+            showModal(modalSelector, timerId);
             document.body.style.overflow = 'hidden';
         });
 
@@ -14,37 +30,29 @@ function modal() {
 
 
 
+
+
     modal.addEventListener('click', (e) => {
         const target = e.target;
 
         if (target === modal || target.getAttribute('data-close') === '') {
-            closeModal(modal);
+            closeModal(modalSelector);
             document.body.style.overflow = '';
         }
 
     });
 
-    function showModal() {
-        modal.classList.remove('hide');
-        modal.classList.add('show', );
-        // clearInterval(timerId);
 
-    }
-
-    function closeModal(modal) {
-        modal.classList.add('hide');
-        modal.classList.remove('show');
-    }
 
     document.addEventListener('keydown', (e) => {
         if (e.code == "Escape" && modal.classList.contains('show')) {
-            closeModal(modal);
+            closeModal(modalSelector);
             console.log(1);
 
         }
     });
 
-    // const timerId = setTimeout(showModal, 30000);
+    
 
     function showModalByScroll() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
@@ -56,7 +64,13 @@ function modal() {
 
     }
 
-    // window.addEventListener('scroll', showModalByScroll);
+    window.addEventListener('scroll', showModalByScroll);
 }
 
 export default modal;
+export {
+    closeModal
+};
+export {
+    showModal
+};

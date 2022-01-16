@@ -1,3 +1,6 @@
+import {closeModal, showModal} from './modal';
+
+
 function forms() {
     const forms = document.querySelectorAll('form');
 
@@ -30,7 +33,6 @@ function forms() {
     function bindPostData(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-
             const spiner = document.createElement('img');
             spiner.src = 'img/form/spinner.svg';
             spiner.style.cssText =
@@ -59,7 +61,7 @@ function forms() {
     function showHello(message) {
         const prevModal = document.querySelector('.modal__content');
         prevModal.classList.add('hide');
-        showModal();
+        showModal('.modal');
 
         const newMessage = document.createElement('div');
         newMessage.classList.add('modal__content');
@@ -75,23 +77,12 @@ function forms() {
             prevModal.classList.remove('hide');
             prevModal.classList.add('show');
             newMessage.remove();
-            closeModal(modal);
+            closeModal('.modal');
 
         }, 2000);
     }
 
-    function showModal() {
-        modal.classList.remove('hide');
-        modal.classList.add('show', );
-        // clearInterval(timerId);
-
-    }
-
-    function closeModal(modal) {
-        modal.classList.add('hide');
-        modal.classList.remove('show');
-    }
-
+   
 
 }
 
