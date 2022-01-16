@@ -1,3 +1,6 @@
+import {getResource} from '../services/services';
+
+
 function cards() {
     class Card {
         constructor(place, src, title, descr, price, ...classes) {
@@ -47,13 +50,7 @@ function cards() {
         }
     }
 
-    const getResource = async (url) => {
-        const f = await fetch(url);
-        if (!f.ok) {
-            throw new Error(`Ошибка ${f.status}`);
-        }
-        return await f.json();
-    };
+    
 
     getResource('http://localhost:3000/menu')
         .then(data => {

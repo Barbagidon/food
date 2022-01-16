@@ -1,8 +1,9 @@
 import {closeModal, showModal} from './modal';
+import {postData} from '../services/services';
 
 
-function forms() {
-    const forms = document.querySelectorAll('form');
+function forms(formsSelector) {
+    const forms = document.querySelectorAll(formsSelector);
 
     const messages = {
         ok: 'Спс, бро',
@@ -15,18 +16,7 @@ function forms() {
     });
 
 
-    const postData = async (url, data) => {
-        let res = await fetch(url, {
-            method: 'POST',
-            body: data,
-            headers: {
-                'Content-type': 'application/json'
-            }
-        }, );
-
-
-        return res.json();
-    };
+   
 
 
 

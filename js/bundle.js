@@ -157,6 +157,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _services_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/services */ "./js/services/services.js");
+
+
+
 function cards() {
     class Card {
         constructor(place, src, title, descr, price, ...classes) {
@@ -206,15 +210,9 @@ function cards() {
         }
     }
 
-    const getResource = async (url) => {
-        const f = await fetch(url);
-        if (!f.ok) {
-            throw new Error(`Ошибка ${f.status}`);
-        }
-        return await f.json();
-    };
+    
 
-    getResource('http://localhost:3000/menu')
+    (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getResource)('http://localhost:3000/menu')
         .then(data => {
             data.forEach(({
                 img,
@@ -243,11 +241,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal */ "./js/modules/modal.js");
+/* harmony import */ var _services_services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/services */ "./js/services/services.js");
 
 
 
-function forms() {
-    const forms = document.querySelectorAll('form');
+
+function forms(formsSelector) {
+    const forms = document.querySelectorAll(formsSelector);
 
     const messages = {
         ok: 'Спс, бро',
@@ -260,18 +260,7 @@ function forms() {
     });
 
 
-    const postData = async (url, data) => {
-        let res = await fetch(url, {
-            method: 'POST',
-            body: data,
-            headers: {
-                'Content-type': 'application/json'
-            }
-        }, );
-
-
-        return res.json();
-    };
+   
 
 
 
@@ -287,7 +276,7 @@ function forms() {
             const formData = new FormData(form);
             const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-            postData('http://localhost:3000/requests', json)
+            (0,_services_services__WEBPACK_IMPORTED_MODULE_1__.postData)('http://localhost:3000/requests', json)
                 .then(data => {
                     spiner.remove();
                     console.log(data);
@@ -433,16 +422,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function slide() {
-    const slides = document.querySelectorAll('.offer__slide'),
-        prev = document.querySelector('.offer__slider-prev'),
-        next = document.querySelector('.offer__slider-next'),
-        total = document.querySelector('#total'),
-        current = document.querySelector('#current'),
-        slidesWrapper = document.querySelector('.offer__slider-wrapper'),
-        slidesField = document.querySelector('.offer__slider-inner'),
+function slide({sliderSelect, slideSelect, prevSelect, nextSelect, totalSelect, currentSelect, wrapperSelect, fieldSelect}) {
+    const slides = document.querySelectorAll(slideSelect),
+        prev = document.querySelector(prevSelect),
+        next = document.querySelector(nextSelect),
+        total = document.querySelector(totalSelect),
+        current = document.querySelector(currentSelect),
+        slidesWrapper = document.querySelector(wrapperSelect),
+        slidesField = document.querySelector(fieldSelect),
         width = window.getComputedStyle(slidesWrapper).width,
-        slider = document.querySelector('.offer__slider');
+        slider = document.querySelector(sliderSelect);
 
 
     let slideIndex = 1;
@@ -581,16 +570,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function tabs() {
-    const tabsContainer = document.querySelector('.tabheader__items'),
-        tabs = document.querySelectorAll('.tabheader__item'),
-        content = document.querySelectorAll('.tabcontent'),
-        contentContainer = document.querySelector('.tabcontainer');
+function tabs(container, tabsSelector, tabsContent, contContainer, activeClass) {
+    const tabsContainer = document.querySelector(container),
+        tabs = document.querySelectorAll(tabsSelector),
+        content = document.querySelectorAll(tabsContent),
+        contentContainer = document.querySelector(contContainer);
 
 
     function hideTabContent() {
         tabs.forEach(item => {
-            item.classList.remove('tabheader__item_active');
+            item.classList.remove(activeClass);
 
         });
 
@@ -602,7 +591,7 @@ function tabs() {
     }
 
     function showTabContent(i = 0) {
-        tabs[i].classList.add('tabheader__item_active');
+        tabs[i].classList.add(activeClass);
         content[i].classList.add('show', 'fade');
         content[i].classList.remove('hide');
 
@@ -640,8 +629,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function timer() {
-    const deadline = '2022-01-20'; ///дата конца акции
+function timer(id, deadline) {
+  
 
 
     function addZero(num) {
@@ -700,7 +689,7 @@ function timer() {
 
     }
 
-    setClock(deadline, '.timer');
+    setClock(deadline, id);
 
 
     
@@ -709,6 +698,42 @@ function timer() {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (timer);
+
+/***/ }),
+
+/***/ "./js/services/services.js":
+/*!*********************************!*\
+  !*** ./js/services/services.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "postData": () => (/* binding */ postData),
+/* harmony export */   "getResource": () => (/* binding */ getResource)
+/* harmony export */ });
+const postData = async (url, data) => {
+    let res = await fetch(url, {
+        method: 'POST',
+        body: data,
+        headers: {
+            'Content-type': 'application/json'
+        }
+    }, );
+
+
+    return res.json();
+};
+
+const getResource = async (url) => {
+    const f = await fetch(url);
+    if (!f.ok) {
+        throw new Error(`Ошибка ${f.status}`);
+    }
+    return await f.json();
+};
+
+
 
 /***/ })
 
@@ -795,13 +820,23 @@ __webpack_require__.r(__webpack_exports__);
 window.addEventListener('DOMContentLoaded', () => {
 
     const timerId = setTimeout(() => (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__.showModal)('.modal', timerId), 3000);
-    (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__["default"])();
+    (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__["default"])('.tabheader__items', '.tabheader__item', '.tabcontent', '.tabcontainer', 'tabheader__item_active');
     (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])('[data-modal]', '.modal', timerId);
-    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__["default"])();
+    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__["default"])('.timer', '2022-01-20');
     (0,_modules_cards__WEBPACK_IMPORTED_MODULE_3__["default"])();
     (0,_modules_calc__WEBPACK_IMPORTED_MODULE_4__["default"])();
-    (0,_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])();
-    (0,_modules_slide__WEBPACK_IMPORTED_MODULE_6__["default"])();
+    (0,_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])('form');
+    (0,_modules_slide__WEBPACK_IMPORTED_MODULE_6__["default"])({
+        sliderSelect: '.offer__slider',
+        slideSelect: '.offer__slide',
+        prevSelect: '.offer__slider-prev',
+        nextSelect: '.offer__slider-next',
+        totalSelect: '#total',
+        currentSelect: '#current',
+        wrapperSelect: '.offer__slider-wrapper',
+        fieldSelect: '.offer__slider-inner',
+
+    });
 
 });
 })();

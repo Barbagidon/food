@@ -1,5 +1,5 @@
-function timer() {
-    const deadline = '2022-01-20'; ///дата конца акции
+function timer(id, deadline) {
+  
 
 
     function addZero(num) {
@@ -58,7 +58,7 @@ function timer() {
 
     }
 
-    setClock(deadline, '.timer');
+    setClock(deadline, id);
 
 
     
